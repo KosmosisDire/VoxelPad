@@ -355,8 +355,12 @@ export const Grid: React.FC<GridProps> = ({
   return (
     <div 
       ref={gridContainerRef}
-      className={`relative overflow-hidden select-none grid-container h-full ${gridCursor}`}
-      style={{ maxWidth: '100%', maxHeight: '100%' }}
+      className={`w-full h-full select-none grid-container ${gridCursor}`}
+      style={{ 
+        position: 'relative',
+        overflow: 'hidden',
+        zIndex: 5  // Ensure it's above some layers but below sidebars
+      }}
       onWheel={handleWheel}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
