@@ -4,10 +4,12 @@ import { useToolContext } from '../../context/ToolContext';
 import { ToolType } from '../../types/tools';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Paintbrush, Eraser, PenTool, Minus, Square, Move } from 'lucide-react';
+import { Paintbrush, Eraser, PenTool, Minus, Square, Move, Undo2, Redo2 } from 'lucide-react';
+import { useHistory } from '../../hooks/useHistory';
 
 export const ToolBar: React.FC = () => {
   const { toolState, setActiveTool } = useToolContext();
+  const { undoAction, redoAction, canUndo, canRedo } = useHistory();
   
   const voxelTools = [
     { type: ToolType.VOXEL_PLACE, icon: <Paintbrush className="w-5 h-5" />, tooltip: 'Place Voxel' },
@@ -50,6 +52,38 @@ export const ToolBar: React.FC = () => {
         {drawingTools.map(renderToolButton)}
         
         <Separator orientation="vertical" className="h-8 mx-2 bg-gray-700" />
+        
+        {/* Undo/Redo Buttons */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={undoAction}
+          className="h-10 w-10 relative group"
+          disabled={!canUndo}
+          title="Undo"
+        >
+          <Undo2 className="w-5 h-5" />
+          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-700 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+            Undo (Ctrl+Z)
+          </span>
+        </Button>
+        
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={redoAction}
+          className="h-10 w-10 relative group"
+          disabled={!canRedo}
+          title="Redo"
+        >
+          <Redo2 className="w-5 h-5" />
+          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-700 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+            Redo (Ctrl+Y)
+          </span>
+        </Button>
+        
+        <Separator orientation="vertical" className="h-8 mx-2 bg-gray-700" />
+
         
         {navigationTools.map(renderToolButton)}
       </div>
