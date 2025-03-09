@@ -1,0 +1,49 @@
+{
+    "name": "voxel-grid-visualizer",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@radix-ui/react-dropdown-menu": "^2.0.6",
+        "@radix-ui/react-label": "^2.0.2",
+        "@radix-ui/react-separator": "^1.0.3",
+        "@radix-ui/react-slider": "^1.1.2",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.0",
+        "lucide-react": "^0.263.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwind-merge": "^2.2.0",
+        "tailwindcss-animate": "^1.0.7",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^18.17.0",
+        "@types/react": "^18.2.20",
+        "@types/react-dom": "^18.2.7",
+        "@types/uuid": "^9.0.7",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.32",
+        "tailwindcss": "^3.4.0",
+        "typescript": "^5.1.6",
+        "vite": "^5.0.10",
+        "vite-plugin-svgr": "^4.2.0",
+        "@vitejs/plugin-react": "^4.2.1"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
