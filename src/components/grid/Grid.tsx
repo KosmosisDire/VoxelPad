@@ -489,7 +489,6 @@ export const Grid: React.FC<GridProps> = ({
                     transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
                     transformOrigin: '0 0',
                     userSelect: 'none',
-                    WebkitUserDrag: 'none'
                 }}
             >
                 {/* Chunks and Voxels */}

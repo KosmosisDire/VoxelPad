@@ -7,8 +7,8 @@ import { GridConfig } from '../types/grid';
 
 // Function to get all positions affected by a brush
 const getVoxelPositionsForBrush = (
-    x: Position,
-    y: Position,
+    x: number,
+    y: number,
     brushSize: number,
     gridConfig: GridConfig
 ): { chunkPos: Position, voxelPos: Position }[] => {

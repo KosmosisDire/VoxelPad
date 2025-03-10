@@ -1,7 +1,7 @@
 // src/context/ActionContext.tsx
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { Annotation } from '../types/tools';
-import { GridData, VoxelData, Position, positionToKey } from '../types/grid';
+import { GridData, VoxelData, Position } from '../types/grid';
 
 export enum ActionType {
   ANNOTATION_ADD = 'ANNOTATION_ADD',

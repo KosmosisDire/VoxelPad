@@ -1,4 +1,4 @@
-// src/components/grid/GridLines.tsx
+// src/components/grid/GridLines.tsx (Updated)
 import React from 'react';
 
 interface GridLinesProps {
@@ -33,8 +33,9 @@ export const GridLines: React.FC<GridLinesProps> = ({
         y1={0}
         x2={x}
         y2={height}
-        stroke={isChunkBorder && showChunkBorders ? "#4B5563" : "#1F2937"}
+        stroke={isChunkBorder && showChunkBorders ? "hsl(var(--border))" : "hsl(var(--muted))"}
         strokeWidth={isChunkBorder ? 1 : 0.5}
+        strokeOpacity={isChunkBorder ? 0.8 : 0.4}
         vectorEffect="non-scaling-stroke"
       />
     );
@@ -52,8 +53,9 @@ export const GridLines: React.FC<GridLinesProps> = ({
         y1={y}
         x2={width}
         y2={y}
-        stroke={isChunkBorder && showChunkBorders ? "#4B5563" : "#1F2937"}
+        stroke={isChunkBorder && showChunkBorders ? "hsl(var(--border))" : "hsl(var(--muted))"}
         strokeWidth={isChunkBorder ? 1 : 0.5}
+        strokeOpacity={isChunkBorder ? 0.8 : 0.4}
         vectorEffect="non-scaling-stroke"
       />
     );

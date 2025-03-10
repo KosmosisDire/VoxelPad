@@ -8,7 +8,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 
 export const GridControls: React.FC = () => {
-    const { gridConfig, setGridConfig, resetGrid, clearGrid } = useGrid();
+    const { gridConfig, setGridConfig, clearGrid } = useGrid();
 
     const handleGridSizeChange = (value: number) => {
         setGridConfig({ gridSize: Math.max(1, value) });
@@ -18,9 +18,9 @@ export const GridControls: React.FC = () => {
         setGridConfig({ chunkSize: Math.max(1, value) });
     };
 
-    const handleCellSizeChange = (value: number) => {
-        setGridConfig({ cellSize: Math.max(5, value) });
-    };
+    // const handleCellSizeChange = (value: number) => {
+    //     setGridConfig({ cellSize: Math.max(5, value) });
+    // };
 
     return (
         <div className="space-y-6">
@@ -76,7 +76,7 @@ export const GridControls: React.FC = () => {
                     />
                 </div>
 
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                     <div className="flex justify-between">
                         <Label htmlFor="cellSize">Cell Size: {gridConfig.cellSize}px</Label>
                         <Input
@@ -97,16 +97,16 @@ export const GridControls: React.FC = () => {
                         value={[gridConfig.cellSize]}
                         onValueChange={(vals) => handleCellSizeChange(vals[0])}
                     />
-                </div>
+                </div> */}
             </div>
 
             <div className="space-y-2">
-                <div className="text-sm text-gray-400">Total grid: {gridConfig.gridSize * gridConfig.chunkSize}×{gridConfig.gridSize * gridConfig.chunkSize} voxels</div>
+                <div className="text-sm text-muted-foreground">Total grid: {gridConfig.gridSize * gridConfig.chunkSize}×{gridConfig.gridSize * gridConfig.chunkSize} voxels</div>
                 <div className="flex space-x-2">
-                    <Button variant="secondary" onClick={resetGrid}>
+                    {/* <Button variant="secondary" onClick={resetGrid} className="transition-theme">
                         Reset Grid
-                    </Button>
-                    <Button variant="destructive" onClick={clearGrid}>
+                    </Button> */}
+                    <Button variant="destructive" onClick={clearGrid} className="transition-theme">
                         Clear Grid
                     </Button>
                 </div>

@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Layout } from './components/layout/Layout';
 import { GridProvider } from './context/GridContext';
 import { ToolProvider } from './context/ToolContext';
-import { ActionProvider, Action, ActionType } from './context/ActionContext';
+import { ActionProvider, Action } from './context/ActionContext';
 import { ThemeProvider } from './theme';
 
 const App: React.FC = () => {

@@ -10,13 +10,13 @@ export const Layout: React.FC = () => {
   const [toolSettingsOpen, setToolSettingsOpen] = useState(true);
   
   return (
-    <div className="flex flex-col h-screen text-white bg-gray-950 overflow-hidden">
-      <header className="bg-gray-900 border-b border-gray-800 p-4 relative z-20">
-        <h1 className="text-2xl font-bold">Voxel Grid Visualizer</h1>
+    <div className="flex flex-col h-screen text-foreground bg-background overflow-hidden">
+      <header className="sidebar-bg border-b p-4 relative z-20">
+        <h1 className="text-2xl font-bold">Voxel Pad</h1>
       </header>
       
       <div className="flex-1 flex relative">
-        {/* Left sidebar - with semi-transparent background */}
+        {/* Left sidebar */}
         <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
         
         {/* Main content area with grid that fills available space */}
@@ -31,7 +31,7 @@ export const Layout: React.FC = () => {
             />
           </div>
           
-          {/* Right sidebar - with semi-transparent background */}
+          {/* Right sidebar */}
           <ToolSettingsSidebar 
             isOpen={toolSettingsOpen} 
             onToggle={() => setToolSettingsOpen(!toolSettingsOpen)} 
@@ -39,7 +39,7 @@ export const Layout: React.FC = () => {
         </div>
       </div>
       
-      <footer className="border-t border-gray-800 bg-gray-900 z-20">
+      <footer className="toolbar-bg z-20">
         <ToolBar />
       </footer>
     </div>

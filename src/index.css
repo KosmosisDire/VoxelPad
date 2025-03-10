@@ -4,25 +4,42 @@
 @tailwind utilities;
 
 :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Dark greyscale with warm tinge base */
+    --background: 20 5% 5%;
+    --foreground: 20 10% 98%;
+    
+    /* Card and UI surfaces with warm tones */
+    --card: 20 5% 8%;
+    --card-foreground: 20 5% 98%;
+    --popover: 20 5% 8%;
+    --popover-foreground: 20 5% 98%;
+    
+    /* Green accent for primary actions/focus */
+    --primary: 150 40% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary elements with warm dark tones */
+    --secondary: 20 5% 15%;
+    --secondary-foreground: 20 10% 98%;
+    
+    /* Muted elements with warm undertones */
+    --muted: 20 5% 15%;
+    --muted-foreground: 20 10% 70%;
+    
+    /* Subtle green accents for highlights */
+    --accent: 150 30% 15%;
+    --accent-foreground: 150 60% 60%;
+    
+    /* Destructive actions (keep standard red) */
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Borders and inputs with warm tones */
+    --border: 20 5% 20%;
+    --input: 20 5% 20%;
+    
+    /* Green ring for focus states */
+    --ring: 150 60% 40%;
     --radius: 0.5rem;
 }
 
@@ -35,23 +52,28 @@ body {
     font-feature-settings: "rlig" 1, "calt" 1;
 }
 
-/* Custom styles for the app */
+/* Custom scrollbars with theme colors */
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: hsl(240 10% 3.9%);
+    background: hsl(var(--background));
 }
 
 ::-webkit-scrollbar-thumb {
-    background: hsl(217.2 32.6% 17.5%);
+    background: hsl(var(--muted));
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: hsl(217.2 32.6% 22%);
+    background: hsl(var(--accent));
+}
+
+/* Button hover effects */
+button:hover {
+    transition: all 0.2s ease;
 }
 
 /* Prevent dragging behavior for all elements in the grid area */
@@ -65,9 +87,31 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-  }
+}
   
-  /* Apply this to the grid container in the HTML */
-  .grid-container {
+/* Apply this to the grid container in the HTML */
+.grid-container {
     touch-action: none; /* Prevents scrolling/panning on touch devices */
-  }
+}
+
+/* Custom theme classes for UI components */
+.sidebar-bg {
+    @apply bg-card bg-opacity-95 border-border;
+}
+
+.toolbar-bg {
+    @apply bg-card border-t border-border;
+}
+
+.tool-button-active {
+    @apply bg-primary text-primary-foreground;
+}
+
+.tool-button-inactive {
+    @apply bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground;
+}
+
+/* Subtle transitions */
+.transition-theme {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

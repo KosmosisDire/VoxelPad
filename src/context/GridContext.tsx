@@ -409,7 +409,7 @@ export const GridProvider: React.FC<{ children: React.ReactNode }> = ({ children
               // For redo of VOXEL_BATCH, we need to apply the inverted batch
               applyVoxelAction({
                 type: ActionType.VOXEL_BATCH,
-                operations: action.operations.map(op => ({
+                operations: action.operations.map((op: any) => ({
                   ...op,
                   // Swap previous and new voxel for redo
                   previousVoxel: op.newVoxel,

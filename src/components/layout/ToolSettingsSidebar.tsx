@@ -54,16 +54,16 @@ export const ToolSettingsSidebar: React.FC<ToolSettingsSidebarProps> = ({ isOpen
         <Button
           variant="ghost"
           size="icon"
-          className="h-16 w-8 rounded-r-none rounded-l-lg bg-gray-900 bg-opacity-90 border border-r-0 border-gray-800 pointer-events-auto"
+          className="h-16 w-8 rounded-r-none rounded-l-lg sidebar-bg border border-r-0 hover:bg-accent hover:text-accent-foreground transition-theme"
           onClick={onToggle}
         >
           {isOpen ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
         </Button>
       </div>
       
-      <div className={`bg-gray-900 bg-opacity-90 border-l border-gray-800 flex flex-col h-full pointer-events-auto ${isOpen ? 'flex-1' : 'w-0 overflow-hidden'}`}>
+      <div className={`sidebar-bg border-l flex flex-col h-full pointer-events-auto ${isOpen ? 'flex-1' : 'w-0 overflow-hidden'}`}>
         <div className="p-4 overflow-y-auto flex-1">
-          <h2 className="text-xl font-bold mb-6">Tool Settings</h2>
+          <h2 className="text-xl font-bold mb-6 text-foreground">Tool Settings</h2>
           {renderToolSettings()}
         </div>
       </div>
