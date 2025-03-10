@@ -6,7 +6,7 @@ import { Chunk } from './Chunk';
 import { Annotation, ToolType } from '../../types/tools';
 import { Move } from 'lucide-react';
 import { GridLines } from './GridLines';
-import { useHistory } from '../../hooks/useHistory'; // Import the unified history hook
+import { BrushPreview } from './BrushPreview';
 
 interface GridProps {
     showChunkBorders?: boolean;
@@ -29,6 +29,8 @@ export const Grid: React.FC<GridProps> = ({
     const [zoom, setZoom] = useState(1);
     const [pan, setPan] = useState({ x: 0, y: 0 });
     const [initialCentering, setInitialCentering] = useState(false);
+    const [globalMousePos, setGlobalMousePos] = useState<{ x: number, y: number } | null>(null);
+    const [showBrushPreview, setShowBrushPreview] = useState(false);
 
     const {
         gridData,
@@ -36,10 +38,10 @@ export const Grid: React.FC<GridProps> = ({
         getTotalGridSizeInPixels,
         startBatch,
         endBatch,
-        isInBatch
+        isInBatch,
+        screenToGridCoords
     } = useGrid();
 
-    // Use the updated imports - no more undoAnnotation/redoAnnotation
     const {
         toolState,
         handleMouseDown,
@@ -67,20 +69,20 @@ export const Grid: React.FC<GridProps> = ({
     // Initial centering when component mounts
     useEffect(() => {
         if (!initialCentering && gridContainerRef.current) {
-          centerGrid();
-          setInitialCentering(true);
+            centerGrid();
+            setInitialCentering(true);
         }
-      }, [centerGrid, initialCentering]);
+    }, [centerGrid, initialCentering]);
 
     // Update position when sidebar states change
     useEffect(() => {
         if (initialCentering) {
-          // Only recenter when grid/chunk size changes or sidebars change
-          // This is a separate effect from the zoom-based panning
-          centerGrid();
+            // Only recenter when grid/chunk size changes or sidebars change
+            // This is a separate effect from the zoom-based panning
+            centerGrid();
         }
-      }, [sidebarOpen, toolSettingsOpen, gridConfig.gridSize, gridConfig.chunkSize, centerGrid, initialCentering]);
-      
+    }, [sidebarOpen, toolSettingsOpen, gridConfig.gridSize, gridConfig.chunkSize, centerGrid, initialCentering]);
+
 
     // Convert chunk Map to array for rendering
     const chunks = useMemo(() => {
@@ -124,8 +126,6 @@ export const Grid: React.FC<GridProps> = ({
         const gridY = (screenY - pan.y) / zoom;
         return { x: gridX, y: gridY };
     }, [zoom, pan]);
-
-    // Update these mouse event handlers in Grid.tsx
 
     const onMouseDown = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
@@ -200,9 +200,9 @@ export const Grid: React.FC<GridProps> = ({
         }
     }, [isMouseDown, isPanning, handleMouseUp, isInBatch, endBatch, toolState.activeTool]);
 
-    // Also update the onMouseLeave handler:
     const onMouseLeave = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+        setShowBrushPreview(false);
 
         // End batch if we were in a voxel operation
         // Check both isInBatch and toolState to make sure we don't miss any batches
@@ -241,10 +241,20 @@ export const Grid: React.FC<GridProps> = ({
             return;
         }
 
+        // Get the exact floating-point grid coordinates
+        const { x, y } = screenToGridCoordinates(screenX, screenY);
+        let cellx = (x / gridConfig.cellSize);
+        let celly = (y / gridConfig.cellSize);
+        setGlobalMousePos({ x: cellx, y: celly });
+
+        // Show brush preview for voxel tools
+        setShowBrushPreview(
+            (toolState.activeTool === ToolType.VOXEL_PLACE || toolState.activeTool === ToolType.ERASER) &&
+            !isPanning
+        );
+
         // For other tools, convert to grid coordinates
         if (isMouseDown) {
-            const { x, y } = screenToGridCoordinates(screenX, screenY);
-
             // Handle right-click to use opposite tool
             if (e.buttons === 2) {
                 // If current tool is VOXEL_PLACE, use ERASER
@@ -264,7 +274,18 @@ export const Grid: React.FC<GridProps> = ({
                 handleMouseMove(x, y, true);
             }
         }
-    }, [isMouseDown, isPanning, panStart, pan, zoom, toolState.activeTool, handleMouseMove, screenToGridCoordinates]);
+    }, [
+        isMouseDown,
+        isPanning,
+        panStart,
+        pan,
+        zoom,
+        toolState.activeTool,
+        handleMouseMove,
+        screenToGridCoordinates,
+        screenToGridCoords,
+        gridConfig.chunkSize
+    ]);
 
     // Prevent drag start event
     const onDragStart = useCallback((e: React.DragEvent) => {
@@ -276,7 +297,7 @@ export const Grid: React.FC<GridProps> = ({
     const resetView = useCallback(() => {
         setZoom(1);
         centerGrid();
-      }, [centerGrid]);
+    }, [centerGrid]);
 
     // Add document-level event listeners for mouse up
     useEffect(() => {
@@ -392,7 +413,7 @@ export const Grid: React.FC<GridProps> = ({
         }
 
         return completedAnnotations;
-    }, [toolState.annotations, currentAnnotation]);
+    }, [toolState.annotations, currentAnnotation, zoom]);
 
     // Show pan cursor if in pan mode
     const gridCursor = useMemo(() => {
@@ -482,6 +503,19 @@ export const Grid: React.FC<GridProps> = ({
                     />
                 ))}
 
+                {/* Brush Preview */}
+                {showBrushPreview && globalMousePos && (
+                    <BrushPreview
+                        x={globalMousePos.x}
+                        y={globalMousePos.y}
+                        brushSize={toolState.brushSize}
+                        cellSize={gridConfig.cellSize}
+                        color={toolState.activeColor}
+                        isEraser={toolState.activeTool === ToolType.ERASER}
+                        gridSize={gridConfig.gridSize}
+                        chunkSize={gridConfig.chunkSize}
+                    />
+                )}
                 {/* Grid Lines and Annotations */}
                 <svg
                     className="absolute top-0 left-0 pointer-events-none"
